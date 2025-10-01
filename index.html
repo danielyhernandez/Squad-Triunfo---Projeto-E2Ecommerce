@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TriunfoShop - Sua loja online</title>
+    <link rel="stylesheet" href="./Projeto/styles-improved.css">
+    <link rel="stylesheet" href="./Projeto/auth-buttons.css">
+    <link rel="stylesheet" href="./Projeto/styles-mobile.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>
+                        <img class="logo-img" src="./Projeto/logo.png" alt="Logo" width="40" height="40" style="margin-right: 8px; vertical-align: middle;">
+                        <span class="logo-text">TriunfoShop</span>
+                    </h1>
+                </div>
+                
+                <!-- Navegação Principal -->
+                <nav class="nav">
+                    <ul>
+                        <li><a href="index.html">
+                            <i class="fas fa-home"></i> Início
+                        </a></li>
+                        <li class="dropdown">
+                            <a href="#categorias">
+                                <i class="fas fa-th-large"></i> Categorias
+                                <i class="fas fa-chevron-down"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="#eletrônicos"><i class="fas fa-laptop"></i> Eletrônicos</a>
+                                <a href="#roupas"><i class="fas fa-tshirt"></i> Roupas</a>
+                                <a href="#esportes"><i class="fas fa-dumbbell"></i> Esportes</a>
+                                <a href="#beleza"><i class="fas fa-palette"></i> Beleza</a>
+                                <a href="#livros"><i class="fas fa-book"></i> Livros</a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Ações do Header -->
+                <div class="header-actions">
+                    <!-- Busca Melhorada -->
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" placeholder="O que você está procurando?">
+                            <button id="searchBtn"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+
+                    <!-- Ações do Usuário -->
+                    <div class="user-actions">
+                        <a href="#carrinho" class="cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </a>
+                        <a href="#favoritos" class="favorites-btn">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                        <!-- A área de autenticação será preenchida dinamicamente -->
+                        <div id="auth-area">
+                            <!-- Estado padrão (deslogado) -->
+                            <div class="auth-buttons" id="logged-out-view">
+                                <a href="./Projeto/login.html" class="btn-login">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Login</span>
+                                </a>
+                                <a href="./Projeto/register.html" class="btn-register">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Cadastrar</span>
+                                </a>
+                            </div>
+                            <!-- Estado logado (será preenchido via JS) -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+                
+                <!-- Mobile Navigation -->
+                <nav class="mobile-nav" id="mobileNav">
+                    <ul>
+                        <li><a href="index.html" class="active">
+                            <i class="fas fa-home"></i> Início
+                        </a></li>
+                        <li><a href="#categorias">
+                            <i class="fas fa-th-large"></i> Categorias
+                        </a></li>
+                        <li><a href="#eletrônicos">
+                            <i class="fas fa-laptop"></i> Eletrônicos
+                        </a></li>
+                        <li><a href="#roupas">
+                            <i class="fas fa-tshirt"></i> Roupas
+                        </a></li>
+                        <li><a href="#esportes">
+                            <i class="fas fa-dumbbell"></i> Esportes
+                        </a></li>
+                        <li><a href="#beleza">
+                            <i class="fas fa-palette"></i> Beleza
+                        </a></li>
+                        <li><a href="#livros">
+                            <i class="fas fa-book"></i> Livros
+                        </a></li>
+                    </ul>
+                </nav>
+                
+            </div>
+            </div>
+        </div>
+    </header>
+
+    
+<!-- Breadcrumbs -->
+    <nav class="breadcrumbs">
+        <div class="container">
+            <ol>
+                
+                <li class="active"></li>
+            </ol>
+        </div>
+    </nav>
+
+    <!-- Hero Section Melhorada -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Bem-vindo ao TriunfoShop</h1>
+                    <p class="hero-subtitle">Encontre os melhores produtos com os menores preços do mercado</p>
+                    <!-- Vantagens da Loja -->
+                    <div class="hero-advantages">
+                        <div class="advantage-item">
+                            <i class="fas fa-truck"></i>
+                            <span>Frete Grátis</span>
+                        </div>
+                        <div class="advantage-item">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Parcelamento sem juros</span>
+                        </div>
+                        <div class="advantage-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Garantia estendida</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-products">
+                        <div class="hero-product">
+                            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop" alt="Notebook">
+                            <div class="product-info">
+                                <span class="product-name">Notebook Ultra</span>
+                                <span class="product-price" style="color: #f39c12;">R$ 2.499,00</span>
+                            </div>
+                        </div>
+                        <div class="hero-product">
+                            <img src="https://blog.mensmarket.com.br/wp-content/uploads/2019/05/perfumes-masculinos-importados-chanel-600x600.jpg" alt="Perfume">
+                            <div class="product-info">
+                                <span class="product-name">Perfume Importado</span>
+                                <span class="product-price" style="color: #f39c12;">R$ 349,90</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categorias Rápidas -->
+    <section class="quick-categories">
+        <div class="container">
+            <h2>Navegue por Categorias</h2>
+            <div class="categories-grid">
+                <a href="#eletrônicos" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <span>Eletrônicos</span>
+                    <small>12 produtos</small>
+                </a>
+                <a href="#roupas" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <span>Roupas</span>
+                    <small>10 produtos</small>
+                </a>
+                <a href="#esportes" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <span>Esportes</span>
+                    <small>10 produtos</small>
+                </a>
+                <a href="#beleza" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <span>Beleza</span>
+                    <small>8 produtos</small>
+                </a>
+                <a href="#livros" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <span>Livros</span>
+                    <small>10 produtos</small>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filtros Melhorados -->
+    <section class="filters">
+        <div class="container">
+            <div class="filters-header">
+                <h3>Filtrar Produtos</h3>
+                <button class="clear-filters" id="clearFilters">
+                    <i class="fas fa-times"></i> Limpar Filtros
+                </button>
+            </div>
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="categoryFilter">
+                        <i class="fas fa-th-large"></i> Categoria
+                    </label>
+                    <select id="categoryFilter">
+                        <option value="">Todas as categorias</option>
+                        <option value="eletrônicos">Eletrônicos</option>
+                        <option value="roupas">Roupas</option>
+                        <option value="esportes">Esportes</option>
+                        <option value="beleza">Beleza</option>
+                        <option value="livros">Livros</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="priceRange">
+                        <i class="fas fa-dollar-sign"></i> Faixa de Preço
+                    </label>
+                    <select id="priceRange">
+                        <option value="">Qualquer preço</option>
+                        <option value="0-50">Até R$ 50</option>
+                        <option value="50-100">R$ 50 - R$ 100</option>
+                        <option value="100-200">R$ 100 - R$ 200</option>
+                        <option value="200-500">R$ 200 - R$ 500</option>
+                        <option value="500+">Acima de R$ 500</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sortBy">
+                        <i class="fas fa-sort"></i> Ordenar por
+                    </label>
+                    <select id="sortBy">
+                        <option value="relevance">Relevância</option>
+                        <option value="name">Nome A-Z</option>
+                        <option value="price-asc">Menor Preço</option>
+                        <option value="price-desc">Maior Preço</option>
+                        <option value="rating">Melhor Avaliado</option>
+                        <option value="newest">Mais Recente</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products">
+        <div class="container">
+            <div class="products-header">
+                <div class="products-info">
+                    <h3>Nossos Produtos</h3>
+                    <div class="products-count">
+                        <span id="productsCount">0 produtos encontrados</span>
+                        <div class="view-options">
+                            <button class="view-btn active" data-view="grid">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn" data-view="list">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <p>Carregando produtos...</p>
+            </div>
+
+            <!-- Paginação -->
+            <div class="pagination" id="pagination">
+                <button class="page-btn" id="prevPage" disabled>
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+                <div class="page-numbers" id="pageNumbers"></div>
+                <button class="page-btn" id="nextPage">
+                    Próximo <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h3>Receba nossas ofertas exclusivas!</h3>
+                    <p>Cadastre-se e seja o primeiro a saber sobre promoções e novidades</p>
+                </div>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Seu melhor e-mail" id="newsletterEmail">
+                    <button class="btn-primary" id="newsletterBtn">
+                        <i class="fas fa-paper-plane"></i> Cadastrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TriunfoShop</h4>
+                    <p>Sua loja online de confiança com os melhores preços e produtos do mercado.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Úteis</h4>
+                    <ul>
+                        <li><a href="#sobre">Sobre nós</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                        <li><a href="#ajuda">Central de Ajuda</a></li>
+                        <li><a href="#trocas">Política de Trocas</a></li>
+                        <li><a href="#privacidade">Privacidade</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Minha Conta</h4>
+                    <ul>
+                        <li><a href="./Projeto/login.html">Entrar</a></li>
+                        <li><a href="./Projeto/register.html">Cadastrar</a></li>
+                        <li><a href="#pedidos">Meus Pedidos</a></li>
+                        <li><a href="#favoritos">Lista de Desejos</a></li>
+                        <li><a href="#perfil">Meu Perfil</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Atendimento</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> (11) 4002-8922</p>
+                        <p><i class="fas fa-envelope"></i> contato@triunfoshop.com</p>
+                        <p><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TriunfoShop. Todos os direitos reservados.</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                    <i class="fas fa-barcode"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-body">
+                <div class="product-detail">
+                    <div class="product-image">
+                        <img id="modalProductImage" src="" alt="">
+                        <div class="product-badges" id="modalProductBadges"></div>
+                    </div>
+                    <div class="product-info">
+                        <h3 id="modalProductName"></h3>
+                        <div class="product-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="rating-text">(4.2) • 127 avaliações</span>
+                        </div>
+                        <p id="modalProductDescription"></p>
+                        <div class="product-price">
+                            <span class="price" id="modalProductPrice"></span>
+                            <span class="price-original" id="modalProductPriceOriginal"></span>
+                        </div>
+                        <div class="product-stock">
+                            <span>Estoque: </span>
+                            <span id="modalProductStock"></span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-primary" id="buyBtn">
+                                <i class="fas fa-shopping-cart"></i> Comprar Agora
+                            </button>
+                            <button class="btn-secondary" id="addToCartBtn">
+                                <i class="fas fa-plus"></i> Adicionar ao Carrinho
+                            </button>
+                            <button class="btn-favorite" id="addToFavoritesBtn">
+                                <i class="far fa-heart"></i> Favoritar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="./Projeto/script-improved.js"></script>
+    <script src="./Projeto/user-management.js"></script>
+    <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lógica para redirecionar o vendedor diretamente para a página de gestão de produtos
+            const user = userManagement.getCurrentUser();
+            if (user && user.profile === 'Vendedor') {
+                window.location.href = './Projeto/product-management-vendedor.html';
+                return; // Impede que o restante do script seja executado nesta página
+            }
+
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const sideMenu = document.getElementById('sideMenu');
+            const sideMenuClose = document.getElementById('sideMenuClose');
+            const sideMenuOverlay = document.getElementById('sideMenuOverlay');
+            
+            if (mobileMenuToggle && sideMenu) {
+                // Abrir menu lateral
+                mobileMenuToggle.addEventListener('click', function() {
+                    sideMenu.classList.add('active');
+                    sideMenuOverlay.classList.add('active');
+                });
+                
+                // Fechar menu lateral
+                sideMenuClose.addEventListener('click', function() {
+                    sideMenu.classList.remove('active');
+                    sideMenuOverlay.classList.remove('active');
+                });
+                
+                // Fechar menu ao clicar no overlay
+                sideMenuOverlay.addEventListener('click', function() {
+                    sideMenu.classList.remove('active');
+                    sideMenuOverlay.classList.remove('active');
+                });
+                
+                // Fechar menu ao clicar em um link
+                const sideMenuLinks = sideMenu.querySelectorAll('a');
+                sideMenuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        sideMenu.classList.remove('active');
+                        sideMenuOverlay.classList.remove('active');
+                    });
+                });
+            }
+
+            setupAuthDisplay();
+
+            // --- NOVO: Lógica de verificação de login ---
+            function setupAuthDisplay() {
+                const authArea = document.getElementById('auth-area');
+                const user = userManagement.getCurrentUser();
+
+                if (user) {
+                    // Usuário está logado (não vendedor)
+                    let dashboardUrl = '#';
+                    if (user.profile === 'Administrador') {
+                        dashboardUrl = './Projeto/user-management.html';
+                    }
+
+                    authArea.innerHTML = `
+                        <div class="user-menu">
+                            <button class="user-btn">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Olá, ${user.name.split(' ')[0]} (${user.profile})</span>
+                            </button>
+                            <div class="user-dropdown">
+                                ${dashboardUrl !== '#' ? `<a href="${dashboardUrl}"><i class="fas fa-tachometer-alt"></i> Painel</a>` : ''}
+                                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                            </div>
+                        </div>
+                    `;
+
+                    // Adicionar evento de logout
+                    document.getElementById('logout-btn').addEventListener('click', (e) => {
+                        e.preventDefault();
+                        if (confirm('Tem certeza que deseja sair?')) {
+                            userManagement.logout();
+                            window.location.reload(); // Recarrega a página para mostrar o estado deslogado
+                        }
+                    });
+
+                } else {
+                    // Usuário deslogado, o HTML padrão já está visível
+                }
+            }
+
+            setupAuthDisplay();
+        });
+    </script>
+</body>
+</html>

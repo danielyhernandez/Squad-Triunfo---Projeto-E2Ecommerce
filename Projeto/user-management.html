@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Usuários - TriunfoShop</title>
+    <link rel="stylesheet" href="styles-improved.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .management-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .management-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .management-title {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-light);
+        }
+
+        .actions-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .btn-new-user {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-new-user:hover {
+            background: #229954;
+        }
+
+        .users-table {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .table-content {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table th {
+            background: var(--bg-color);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .table tr:hover {
+            background: var(--bg-color);
+        }
+
+        .profile-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .profile-cliente {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .profile-vendedor {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .profile-administrador {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-edit {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-edit:hover {
+            background: #e67e22;
+        }
+
+        .btn-delete {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-group .error {
+            color: var(--accent-color);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn-save {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-cancel {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .password-requirements {
+            background: var(--bg-color);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .password-requirements h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .password-requirements ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .password-requirements li {
+            margin-bottom: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="management-container">
+        <!-- Header -->
+        <div class="management-header">
+            <h1 class="management-title">
+                <i class="fas fa-users"></i> Gestão de Usuários
+            </h1>
+            <div class="user-info">
+                <span id="userName">Carregando...</span>
+                <button class="btn-secondary" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </div>
+
+        <!-- Ações -->
+        <div class="actions-section">
+            <button class="btn-new-user" onclick="openNewUserModal()">
+                <i class="fas fa-plus"></i> Novo Usuário
+            </button>
+        </div>
+
+        <!-- Tabela de Usuários -->
+        <div class="users-table">
+            <div class="table-header">
+                <i class="fas fa-list"></i> Lista de Usuários
+            </div>
+            <div class="table-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Perfil</th>
+                            <th>Data de Criação</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Usuários serão carregados aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal de Usuário -->
+        <div id="userModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modalTitle">Novo Usuário</h3>
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
+                <form id="userForm">
+                    <div class="form-group">
+                        <label for="userName">Nome Completo *</label>
+                        <input type="text" id="userName" name="name" required>
+                        <div class="error" id="nameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userEmail">E-mail *</label>
+                        <input type="email" id="userEmail" name="email" required>
+                        <div class="error" id="emailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userPassword">Senha *</label>
+                        <input type="password" id="userPassword" name="password" required>
+                        <div class="error" id="passwordError"></div>
+                        <div class="password-requirements">
+                            <h4>Requisitos da senha:</h4>
+                            <ul>
+                                <li>Mínimo de 10 caracteres</li>
+                                <li>Pelo menos um número</li>
+                                <li>Pelo menos uma letra</li>
+                                <li>Pelo menos um caractere especial (!@#$%^&*...)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userProfile">Perfil *</label>
+                        <select id="userProfile" name="profile" required>
+                            <option value="">Selecione um perfil</option>
+                            <option value="Cliente">Cliente</option>
+                            <option value="Vendedor">Vendedor</option>
+                            <option value="Administrador">Administrador</option>
+                        </select>
+                        <div class="error" id="profileError"></div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                        <button type="submit" class="btn-save" id="saveButton">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de Confirmação de Exclusão -->
+        <div id="deleteModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Confirmar Exclusão</h3>
+                    <span class="close" onclick="closeDeleteModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir o usuário <strong id="deleteUserName"></strong>?</p>
+                    <p class="alert alert-error">Esta ação não pode ser desfeita!</p>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="closeDeleteModal()">Cancelar</button>
+                    <button class="btn-delete" onclick="confirmDelete()">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="user-management.js"></script>
+    <script>
+        let currentUsers = [];
+        let editingUserId = null;
+        let deletingUserId = null;
+
+        // Verificar permissões
+        if (!userManagement.hasPermission('manage_users')) {
+            alert('Você não tem permissão para acessar esta página.');
+            window.location.href = 'index-improved.html';
+        }
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserInfo();
+            loadUsers();
+            setupEventListeners();
+        });
+
+        function loadUserInfo() {
+            const user = userManagement.getCurrentUser();
+            if (user) {
+                document.getElementById('userName').textContent = `${user.name} (${user.profile})`;
+            }
+        }
+
+        function loadUsers() {
+            currentUsers = userManagement.getAllUsers();
+            renderUsers();
+        }
+
+        function renderUsers() {
+            const tbody = document.getElementById('usersTableBody');
+            
+            if (currentUsers.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="no-users">
+                            <i class="fas fa-users"></i><br>
+                            Nenhum usuário encontrado
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = currentUsers.map(user => `
+                <tr>
+                    <td><strong>${user.name}</strong></td>
+                    <td>${user.email}</td>
+                    <td>
+                        <span class="profile-badge profile-${user.profile.toLowerCase()}">
+                            ${user.profile}
+                        </span>
+                    </td>
+                    <td>${new Date(user.createdAt).toLocaleDateString('pt-BR')}</td>
+                    <td>
+                        <span class="status-badge ${user.isActive ? 'status-active' : 'status-inactive'}">
+                            ${user.isActive ? 'Ativo' : 'Inativo'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-edit" onclick="editUser('${user.id}')" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-delete" onclick="deleteUser('${user.id}')" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openNewUserModal() {
+            editingUserId = null;
+            document.getElementById('modalTitle').textContent = 'Novo Usuário';
+            document.getElementById('saveButton').textContent = 'Criar Usuário';
+            document.getElementById('userForm').reset();
+            clearErrors();
+            document.getElementById('userModal').style.display = 'block';
+        }
+
+        function editUser(userId) {
+            const user = userManagement.getUserById(userId);
+            if (!user) return;
+
+            editingUserId = userId;
+            document.getElementById('modalTitle').textContent = 'Editar Usuário';
+            document.getElementById('saveButton').textContent = 'Salvar Alterações';
+            
+            document.getElementById('userName').value = user.name;
+            document.getElementById('userEmail').value = user.email;
+            document.getElementById('userPassword').value = '';
+            document.getElementById('userPassword').required = false;
+            document.getElementById('userProfile').value = user.profile;
+            
+            clearErrors();
+            document.getElementById('userModal').style.display = 'block';
+        }
+
+        function deleteUser(userId) {
+            const user = userManagement.getUserById(userId);
+            if (!user) return;
+
+            deletingUserId = userId;
+            document.getElementById('deleteUserName').textContent = user.name;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function confirmDelete() {
+            if (!deletingUserId) return;
+
+            const result = userManagement.deleteUser(deletingUserId);
+            
+            if (result.success) {
+                showAlert('success', result.message);
+                loadUsers();
+                closeDeleteModal();
+            } else {
+                showAlert('error', result.message);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('userModal').style.display = 'none';
+            editingUserId = null;
+            clearErrors();
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            deletingUserId = null;
+        }
+
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error');
+            errorElements.forEach(element => {
+                element.textContent = '';
+            });
+        }
+
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = message;
+            
+            document.querySelector('.management-container').insertBefore(
+                alertDiv, 
+                document.querySelector('.actions-section')
+            );
+
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        function setupEventListeners() {
+            // Formulário de usuário
+            document.getElementById('userForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveUser();
+            });
+
+            // Fechar modais ao clicar fora
+            window.addEventListener('click', function(event) {
+                const userModal = document.getElementById('userModal');
+                const deleteModal = document.getElementById('deleteModal');
+                
+                if (event.target === userModal) {
+                    closeModal();
+                }
+                if (event.target === deleteModal) {
+                    closeDeleteModal();
+                }
+            });
+        }
+
+        function saveUser() {
+            const formData = {
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                password: document.getElementById('userPassword').value,
+                profile: document.getElementById('userProfile').value
+            };
+
+            clearErrors();
+
+            let result;
+            if (editingUserId) {
+                result = userManagement.updateUser(editingUserId, formData);
+            } else {
+                result = userManagement.createUser(formData);
+            }
+
+            if (result.success) {
+                showAlert('success', result.message);
+                loadUsers();
+                closeModal();
+            } else {
+                showAlert('error', result.message);
+            }
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                userManagement.logout();
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

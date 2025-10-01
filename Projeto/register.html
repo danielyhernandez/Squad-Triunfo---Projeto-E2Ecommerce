@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - TriunfoShop</title>
+    <link rel="stylesheet" href="styles-improved.css">
+    <link rel="stylesheet" href="styles-mobile.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .register-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 30%, var(--primary-dark) 70%, var(--secondary-dark) 100%);
+            padding: 2rem 0;
+        }
+        
+        .register-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 1rem;
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .register-header h1 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .register-header p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
+        .password-requirements {
+            background: var(--bg-light);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .password-requirements ul {
+            margin: 0.5rem 0 0 1rem;
+            padding: 0;
+        }
+        
+        .password-requirements li {
+            margin-bottom: 0.25rem;
+        }
+        
+        .btn-register {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-purple);
+        }
+        
+        .btn-register:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-purple);
+        }
+        
+        .btn-register:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .login-link {
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #fcc;
+            display: none;
+        }
+        
+        .success-message {
+            background: #efe;
+            color: #363;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #cfc;
+            display: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 480px) {
+            .register-card {
+                padding: 2rem 1.5rem;
+                margin: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-header">
+                <h1>
+                    <img class="logo-img" src="logo.png" alt="Logo" width="40" height="40" style="margin-right: 8px; vertical-align: middle;">
+
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#8e44ad;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#a569bd;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#6c757d;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Base -->
+                        <ellipse cx="50" cy="85" rx="35" ry="8" fill="url(#logoGradient)" opacity="0.3"/>
+                        
+                        <!-- Elemento central -->
+                        <path d="M 50 85 Q 50 20 50 20 Q 50 15 45 15 Q 40 15 40 20 Q 40 25 45 25 Q 50 25 50 30 Q 50 35 45 35 Q 40 35 40 40 Q 40 45 45 45 Q 50 45 50 50 Q 50 55 45 55 Q 40 55 40 60 Q 40 65 45 65 Q 50 65 50 70 Q 50 75 45 75 Q 40 75 40 80 Q 40 85 50 85 Z" fill="url(#logoGradient)"/>
+                        
+                        <!-- Elemento esquerdo -->
+                        <path d="M 30 85 Q 30 30 25 30 Q 20 30 20 35 Q 20 40 25 40 Q 30 40 30 45 Q 30 50 25 50 Q 20 50 20 55 Q 20 60 25 60 Q 30 60 30 65 Q 30 70 25 70 Q 20 70 20 75 Q 20 80 30 85 Z" fill="url(#logoGradient)" opacity="0.8"/>
+                        
+                        <!-- Elemento direito -->
+                        <path d="M 70 85 Q 70 30 75 30 Q 80 30 80 35 Q 80 40 75 40 Q 70 40 70 45 Q 70 50 75 50 Q 80 50 80 55 Q 80 60 75 60 Q 70 60 70 65 Q 70 70 75 70 Q 80 70 80 75 Q 80 80 70 85 Z" fill="url(#logoGradient)" opacity="0.8"/>
+                        
+                        <!-- Espaços vazados centrais -->
+                        <ellipse cx="50" cy="35" rx="8" ry="12" fill="white" opacity="0.9"/>
+                        <ellipse cx="30" cy="45" rx="6" ry="8" fill="white" opacity="0.7"/>
+                        <ellipse cx="70" cy="45" rx="6" ry="8" fill="white" opacity="0.7"/>
+                    </svg>
+                    TriunfoShop
+                </h1>
+                <p>Crie sua conta para começar</p>
+            </div>
+            
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">Nome Completo</label>
+                    <div class="input-group">
+                        <input type="text" id="name" name="name" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <div class="input-group">
+                        <input type="email" id="email" name="email" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="password-requirements">
+                        <strong>Requisitos da senha:</strong>
+                        <ul>
+                            <li>Mínimo de 10 caracteres</li>
+                            <li>Pelo menos um número</li>
+                            <li>Pelo menos uma letra</li>
+                            <li>Pelo menos um caractere especial (!@#$%^&*)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile">Perfil</label>
+                    <select id="profile" name="profile" required>
+                        <option value="">Selecione seu perfil</option>
+                        <option value="cliente">Cliente</option>
+                        <option value="vendedor">Vendedor</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-register" id="registerBtn">
+                    <span class="btn-text">Criar Conta</span>
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        <span>Criando conta...</span>
+                    </div>
+                </button>
+            </form>
+            
+            <div class="login-link">
+                <p>Já tem uma conta? <a href="login.html">Faça login aqui</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="user-management.js"></script>
+    <script>
+        // DOM elements
+        const registerForm = document.getElementById('registerForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const profileSelect = document.getElementById('profile');
+        const registerBtn = document.getElementById('registerBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const btnText = document.querySelector('.btn-text');
+        const loading = document.querySelector('.loading');
+
+        // Form submission
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            let profile = profileSelect.value;
+            
+            // Validate inputs
+            if (!name) {
+                showError('Por favor, insira seu nome completo.');
+                return;
+            }
+            
+            
+            if (!userManagement.validateEmail(email)) {
+                showError('Por favor, insira um e-mail válido.');
+                return;
+            }
+            
+            // Validar senha usando o sistema de gestão
+            const passwordValidation = userManagement.validatePassword(password);
+            if (!passwordValidation.isValid) {
+                const errors = Object.values(passwordValidation.errors).filter(error => error !== null);
+                showError(errors.join(', '));
+                return;
+            }
+            
+            if (!profile) {
+                showError('Por favor, selecione um perfil.');
+                return;
+            }
+            
+            // Show loading
+            showLoading(true);
+            
+            try {
+                // Criar usuário usando o sistema de gestão de usuários
+                const result = userManagement.createUser({
+                    name: name,
+                    email: email,
+                    password: password,
+                    profile: profile.charAt(0).toUpperCase() + profile.slice(1)
+                });
+                
+                if (result.success) {
+                    showSuccess('Conta criada com sucesso! Redirecionando para login...');
+                    
+                    // Redirect to login page
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    showError(result.message);
+                }
+                
+            } catch (error) {
+                showError('Erro interno do sistema. Tente novamente.');
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+
+        // Show/hide loading
+        function showLoading(show) {
+            if (show) {
+                btnText.style.display = 'none';
+                loading.style.display = 'block';
+                registerBtn.disabled = true;
+            } else {
+                btnText.style.display = 'block';
+                loading.style.display = 'none';
+                registerBtn.disabled = false;
+            }
+        }
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            if (userManagement.isLoggedIn()) {
+                showSuccess('Você já está logado! Redirecionando...');
+                setTimeout(() => {
+                    const profile = userManagement.getCurrentUser().profile;
+                    if (profile === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else if (profile === 'Vendedor') {
+                        window.location.href = 'product-management-vendedor.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

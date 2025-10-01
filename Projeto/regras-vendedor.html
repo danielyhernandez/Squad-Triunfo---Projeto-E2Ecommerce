@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regras de Negócio - Vendedor</title>
+    <link rel="stylesheet" href="./styles-improved.css">
+    <link rel="stylesheet" href="./auth-buttons.css">
+    <link rel="stylesheet" href="./styles-mobile.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>
+                        <img class="logo-img" src="./logo.png" alt="Logo" width="40" height="40" style="margin-right: 8px; vertical-align: middle;">
+                        <span class="logo-text">TriunfoShop</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="products" style="background: #f7f9fb; min-height: 80vh;">
+        <div class="container" style="max-width:700px;">
+            <h2 style="font-size:2rem;font-weight:700;margin:2rem 0 1.5rem 0;color:#222;">Bem-vindo, Vendedor!</h2>
+            <div style="background:white;border-radius:16px;box-shadow:0 2px 12px #0001;padding:2rem 2.5rem;">
+                <h3 style="color:#0052cc;font-size:1.3rem;margin-bottom:1rem;">Regras de Negócio para Gestão de Produtos</h3>
+                <ul style="font-size:1.1rem;line-height:2;">
+                    <li>Você pode <b>consultar</b> e <b>visualizar</b> produtos cadastrados.</li>
+                    <li>É permitido <b>aumentar o estoque</b> apenas em <b>lotes de 10 unidades</b> (ex: +10, +20, +30...).</li>
+                    <li>Não é permitido <b>criar, editar ou excluir</b> produtos.</li>
+                    <li>Não é permitido <b>reduzir</b> o estoque.</li>
+                    <li>Produtos <b>inativos</b> não podem receber acréscimo de estoque.</li>
+                    <li>Se houver <b>limite máximo de estoque</b>, não é possível ultrapassá-lo.</li>
+                    <li>Ao tentar aumentar o estoque, será exibida uma <b>confirmação visual</b> antes de aplicar a operação.</li>
+                    <li>Em caso de erro (produto inativo, limite excedido, falha), a operação é cancelada e uma mensagem explicativa será exibida.</li>
+                </ul>
+                <div style="margin-top:2rem;color:#7a7a7a;font-size:1rem;">Consulte o menu para acessar a gestão de produtos.</div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

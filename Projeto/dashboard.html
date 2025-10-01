@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TriunfoShop</title>
+    <link rel="stylesheet" href="./styles-improved.css">
+    <link rel="stylesheet" href="./auth-buttons.css">
+    <link rel="stylesheet" href="./styles-mobile.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .dashboard-layout { display: flex; min-height: 100vh; background: #f7f9fb; }
+        .sidebar { width: 220px; background: #fff; box-shadow: 2px 0 8px #0001; padding: 2rem 1rem; }
+        .sidebar h3 { font-size: 1.2rem; color: #0052cc; margin-bottom: 2rem; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar li { margin-bottom: 1.5rem; }
+        .sidebar a { color: #222; text-decoration: none; font-weight: 500; font-size: 1.05rem; transition: color 0.2s; }
+        .sidebar a:hover { color: #0052cc; }
+        .main-content { flex: 1; padding: 2.5rem 3rem; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 1.2rem 2rem; box-shadow: 0 2px 8px #0001; border-radius: 0 0 16px 16px; }
+        .dashboard-header h2 { font-size: 1.5rem; color: #222; }
+        .logout-btn { background: #e74c3c; color: #fff; border: none; border-radius: 8px; padding: 0.7rem 1.5rem; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+        .logout-btn:hover { background: #c0392b; }
+        @media (max-width: 900px) { .dashboard-layout { flex-direction: column; } .sidebar { width: 100%; box-shadow: none; border-bottom: 1px solid #eee; } .main-content { padding: 1.5rem 1rem; } }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <h3>Menu</h3>
+            <ul id="dashboardMenu">
+                <!-- Itens do menu serão inseridos via JS -->
+            </ul>
+        </nav>
+        <div style="flex:1;display:flex;flex-direction:column;">
+            <header class="dashboard-header">
+                <h2 id="welcomeMsg">Bem-vindo!</h2>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Sair</button>
+            </header>
+            <main class="main-content" id="dashboardContent">
+                <!-- Conteúdo principal -->
+            </main>
+        </div>
+    </div>
+    <script>
+        // Simulação de autenticação/localStorage
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (!user) {
+            window.location.href = 'login.html';
+        }
+        // Mensagem de boas-vindas
+        document.getElementById('welcomeMsg').textContent = `Bem-vindo, ${user.name}!`;
+        // Menu e conteúdo conforme perfil
+        const menu = document.getElementById('dashboardMenu');
+        const content = document.getElementById('dashboardContent');
+        if (user.profile === 'Cliente') {
+            menu.innerHTML = `<li><a href="index.html"><i class="fas fa-store"></i> Loja</a></li><li><a href="#"><i class="fas fa-box"></i> Meus Pedidos</a></li>`;
+            content.innerHTML = `<h3>Área do Cliente</h3><p>Acesse a loja para comprar produtos e acompanhe seus pedidos.</p>`;
+        } else if (user.profile === 'Vendedor') {
+            menu.innerHTML = `
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="product-management-vendedor.html"><i class="fas fa-box"></i> Gestão de Produtos & Estoque</a></li>
+                <li><a href="#"><i class="fas fa-clipboard-list"></i> Pedidos Recebidos</a></li>
+                <li><a href="regras-vendedor.html"><i class="fas fa-info-circle"></i> Regras de Negócio</a></li>
+            `;
+            content.innerHTML = `
+                <h3 style="color:#0052cc;">Painel do Vendedor</h3>
+                <div style="margin:1.5rem 0 2.5rem 0;">
+                    <p>Bem-vindo à sua área exclusiva de vendedor! Aqui você pode:</p>
+                    <ul style="margin:1rem 0 1.5rem 1.5rem;line-height:2;">
+                        <li>Visualizar e consultar todos os produtos cadastrados.</li>
+                        <li>Aumentar o estoque dos produtos em lotes de 10 unidades.</li>
+                        <li>Acompanhar pedidos recebidos dos clientes.</li>
+                        <li>Consultar as <a href="regras-vendedor.html" style="color:#0052cc;text-decoration:underline;">regras de negócio</a> da plataforma.</li>
+                    </ul>
+                    <a href="product-management-vendedor.html" class="btn-primary" style="padding:1rem 2rem;font-size:1.1rem;"><i class="fas fa-box"></i> Ir para Gestão de Produtos</a>
+                </div>
+            `;
+        } else if (user.profile === 'Administrador') {
+            menu.innerHTML = `<li><a href="user-management.html"><i class="fas fa-users"></i> Gestão de Usuários</a></li><li><a href="product-management.html"><i class="fas fa-box"></i> Gestão de Produtos</a></li>`;
+            content.innerHTML = `<h3>Área do Administrador</h3><p>Gerencie usuários, permissões e produtos da plataforma.</p>`;
+        } else {
+            menu.innerHTML = '';
+            content.innerHTML = '<p>Perfil não reconhecido.</p>';
+        }
+        // Logout
+        document.getElementById('logoutBtn').onclick = function() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        };
+    </script>
+</body>
+</html>

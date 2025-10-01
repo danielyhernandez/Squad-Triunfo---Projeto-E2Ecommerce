@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Produtos - Vendedor</title>
+    <link rel="stylesheet" href="./styles-improved.css">
+    <link rel="stylesheet" href="./auth-buttons.css">
+    <link rel="stylesheet" href="./styles-mobile.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #1bc47d;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>
+                        <img class="logo-img" src="./logo.png" alt="Logo" width="40" height="40" style="margin-right: 8px; vertical-align: middle;">
+                        <span class="logo-text">TriunfoShop</span>
+                    </h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="product-management-vendedor.html" class="active"><i class="fas fa-box"></i> Gestão de Produtos</a></li>
+                        <li><a href="regras-vendedor.html"><i class="fas fa-info-circle"></i> Regras de Negócio</a></li>
+                    </ul>
+                </nav>
+                <!-- Botão de Sair -->
+                <div class="header-actions">
+                    <button class="btn-secondary" onclick="logout()" style="background: #e74c3c; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="products" style="background: #f7f9fb; min-height: 80vh;">
+        <div class="container">
+            <div class="products-header">
+                <div class="products-info">
+                    <h3 style="font-size:2rem; font-weight:700; color:#222;">Gestão de Produtos</h3>
+                </div>
+            </div>
+            <div class="filter-controls" style="margin-bottom: 2rem; display:flex; gap:1rem;">
+                <input type="text" id="searchInput" placeholder="Buscar por nome..." style="padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid #ccc; width: 250px;">
+                <select id="categoryFilter" style="padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid #ccc;">
+                    <option value="">Todas as categorias</option>
+                </select>
+            </div>
+            <div class="products-grid" id="productsGrid" style="gap:2.5rem;">
+                <!-- Produtos serão carregados aqui -->
+            </div>
+            <div class="pagination" id="pagination">
+                <button class="page-btn" id="prevPage" disabled><i class="fas fa-chevron-left"></i> Anterior</button>
+                <div class="page-numbers" id="pageNumbers"></div>
+                <button class="page-btn" id="nextPage">Próximo <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </main>
+    <div class="modal" id="stockModal">
+        <div class="modal-content" style="max-width: 900px; padding:0;">
+            <span class="close" id="closeModal" style="font-size:2rem;right:30px;top:20px;">&times;</span>
+            <div class="modal-body" style="display:flex;flex-wrap:wrap;gap:2rem;align-items:flex-start;justify-content:center;padding:2.5rem 2rem;">
+                <div style="flex:1;min-width:260px;max-width:340px;display:flex;flex-direction:column;align-items:center;">
+                    <img id="modalProductImage" src="" alt="" style="max-width: 220px; max-height: 220px; border-radius: 18px; background:#f3f4f8;box-shadow:0 2px 12px #0001;">
+                    <div style="margin-top:2rem;width:100%;background:linear-gradient(90deg,#f7f9fb 60%,#f3f4f8 100%);border-radius:18px;padding:1.5rem 1rem 1rem 1.5rem;box-shadow:0 2px 12px #0001;">
+                        <div style="font-size:1.1rem;color:#7a7a7a;">Preço:</div>
+                        <div style="font-size:1.6rem;font-weight:700;color:#ff7a00;"> <span id="modalProductPrice"></span></div>
+                        <div style="font-size:1.1rem;color:#7a7a7a;margin-top:0.7rem;">Estoque Atual:</div>
+                        <div style="font-size:1.5rem;font-weight:700;color:#222;"> <span id="modalProductStock"></span> <span style="font-size:1rem;font-weight:400;">unidades</span></div>
+                        <div style="margin-top:0.7rem;display:flex;align-items:center;gap:0.5rem;">
+                            <span style="font-size:1.1rem;color:#7a7a7a;">Status:</span>
+                            <span id="modalProductStatus" style="font-size:1rem;font-weight:600;padding:0.2rem 0.8rem;border-radius:12px;background:#eafbe7;color:#1bc47d;">Ativo</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:1.5rem;width:100%;display:flex;justify-content:space-between;align-items:center;background:#f7f9fb;border-radius:18px;padding:1rem 1.5rem;box-shadow:0 2px 12px #0001;">
+                        <span style="font-weight:600;color:#222;">Ativar/Inativar Produto</span>
+                        <label class="switch">
+                            <input type="checkbox" id="productStatusToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div style="flex:2;min-width:320px;max-width:480px;">
+                    <h2 id="modalProductName" style="font-size:1.7rem;font-weight:700;margin-bottom:0.5rem;color:#222;"></h2>
+                    <div style="font-size:1.1rem;color:#7a7a7a;margin-bottom:1.5rem;" id="modalProductCategory"></div>
+                    <div style="font-size:1.1rem;font-weight:600;margin-bottom:0.7rem;">Descrição do Produto</div>
+                    <p id="modalProductDesc" style="color:#444;margin-bottom:2rem;"></p>
+                    <div style="background:#f7f9fb;border-radius:18px;padding:1.5rem 1.5rem 1.2rem 1.5rem;box-shadow:0 2px 12px #0001;">
+                        <div style="font-size:1.2rem;font-weight:700;color:#ff7a00;display:flex;align-items:center;gap:0.7rem;margin-bottom:1rem;"><i class="fas fa-bolt"></i> Gerenciar Estoque</div>
+                        <div style="font-size:1rem;color:#7a7a7a;margin-bottom:1.2rem;">Adicione estoque em lotes de 10 unidades para manter seu inventário sempre atualizado</div>
+                        <div style="margin-bottom:1.2rem;">
+                            <label for="stockIncrement" style="font-weight:600;">Quantidade a adicionar</label>
+                            <select id="stockIncrement" style="padding: 0.7rem 1.2rem; border-radius: 8px; border: 1px solid #ccc; margin-left: 1rem; font-size:1rem;">
+                                <option value="10">+10 unidades</option>
+                                <option value="20">+20 unidades</option>
+                                <option value="30">+30 unidades</option>
+                                <option value="40">+40 unidades</option>
+                                <option value="50">+50 unidades</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary" id="confirmAddStock" style="width:100%;font-size:1.1rem;padding:1rem 0;background:#0052cc;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:0.7rem;"><i class="fas fa-box"></i> Adicionar ao Estoque</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="confirmModal" style="display:none;">
+        <div class="modal-content" style="max-width: 500px;">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 2rem;">
+                <div style="font-size:2.5rem;margin-bottom:1rem;"><i class="fas fa-cube" style="color:#0052cc;"></i></div>
+                <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;">Confirmar Operação</h2>
+                <div style="color:#7a7a7a;font-size:1rem;margin-bottom:2rem;">Revise os detalhes antes de confirmar</div>
+                <div style="background:#f7f9fb;border-radius:18px;padding:1.5rem 1.5rem 1.2rem 1.5rem;box-shadow:0 2px 12px #0001;width:100%;margin-bottom:2rem;">
+                    <div style="font-weight:600;">Produto:</div>
+                    <div id="confirmProductName" style="margin-bottom:0.7rem;"></div>
+                    <div style="font-weight:600;">Operação:</div>
+                    <div id="confirmOperation" style="margin-bottom:0.7rem;"></div>
+                    <div style="font-weight:600;">Novo estoque:</div>
+                    <div id="confirmNewStock" style="color:#1bc47d;font-weight:700;font-size:1.2rem;"></div>
+                </div>
+                <div style="display:flex;gap:1.5rem;width:100%;justify-content:center;">
+                    <button id="cancelConfirm" style="background:#eee;color:#e74c3c;font-weight:600;padding:0.8rem 2rem;border-radius:8px;font-size:1rem;border:none;display:flex;align-items:center;gap:0.5rem;"><i class="fas fa-times"></i> Cancelar</button>
+                    <button id="doConfirm" style="background:#1bc47d;color:white;font-weight:600;padding:0.8rem 2rem;border-radius:8px;font-size:1rem;border:none;display:flex;align-items:center;gap:0.5rem;"><i class="fas fa-check-square"></i> Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="./user-management.js"></script>
+    <script src="./product-management-vendedor.js"></script>
+</body>
+</html>

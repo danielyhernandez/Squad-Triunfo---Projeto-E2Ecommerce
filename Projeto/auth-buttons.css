@@ -1,0 +1,49 @@
+/* Auth Buttons Styles */
+.auth-buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.btn-login, .btn-register {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    color: white;
+    background: rgba(255,255,255,0.1);
+    min-width: 80px;
+}
+
+.btn-login:hover,
+.btn-register:hover {
+    background: rgba(255,255,255,0.2);
+    color: #e9ecef;
+}
+
+.btn-login:focus, .btn-register:focus {
+    outline: none;
+    background: rgba(255,255,255,0.2);
+}
+
+/* Responsive para auth buttons */
+@media (max-width: 768px) {
+    .auth-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+    }
+    
+    .btn-login, .btn-register {
+        width: 100%;
+        justify-content: center;
+    }
+}
