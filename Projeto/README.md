@@ -1,4 +1,4 @@
-# Magalu Store - E-commerce Platform
+# TriundoShop - E-commerce Platform
 
 Uma plataforma de e-commerce moderna baseada no design do Magazine Luiza, desenvolvida com HTML, CSS e JavaScript puro.
 
